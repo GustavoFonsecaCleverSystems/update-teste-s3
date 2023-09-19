@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PassClient</title>
+  <link href="./css/vertical-panel.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="all">
+    <div class="btn-more">
+      <div class="more dropbtn" onclick="more(1)">+</div>
+      <div id="moreDropdown" class="dropdown-more">
+        <button class="btn-more-list" onclick="callOtherTerminal()">Chamar Terminal</button>
+      </div>
+    </div>
+
+    <div class="primeiros-btns">
+      <button class="btn call" title="Chamar" onclick="chamar()">
+        <span class="material-icons ">call</span>
+      </button>
+      <button class="btn sync" title="Rechamar" onclick="rechamar()">
+        <span class="material-icons">sync</span>
+      </button>
+      <button class="btn missed" title="Desistiu" onclick="desistiu()">
+        <span class="material-icons">phone_missed</span>
+      </button>
+    </div>
+
+    <div class="atual">
+      <p class="text comando">senha atual:</p>
+      <p id="senha-atual" class="text senha-atual">000</p>
+    </div>
+
+    <div class="tempo">
+      <p class="text comando">tempo:</p>
+      <p id="time" class="text">00:00:00</p>
+    </div>
+
+    <div class="ultimos-btns">
+      <button id="avaliar" class="btn quizz" title="Avaliação" onclick="avaliar()">
+        <span class="material-icons">quiz</span>
+      </button>
+      <button class="btn disturb" title="Liberar" onclick="finalizar()">
+        <span class="material-icons">do_not_disturb_on</span>
+      </button>
+      <button id="encaminhar" class="btn disturb" title="Encaminhar" onclick="encaminhar()">
+        <span class="material-icons"> swap_horiz </span>
+      </button>
+    </div>
+
+    <div onmouseover="showWindowAllFilas(1)" onmouseout="hideWindowAllFilas()" class="fila">
+      <p class="fila-text">Fila: <span id="fila">0</span> </p>
+      <div id="all-filas" class="dropdown-content">
+      </div>
+    </div>
+
+    <div id="close">
+      <button class="btn" title="Fechar Aplicação" onclick="fechar()">
+        <span class="material-icons">close</span>
+      </button>
+
+    </div>
+  </div>
+
+  <script src="js/axios.min.js"></script>
+  <script src="js/panel.js" defer></script>
+</body>
+
+</html>

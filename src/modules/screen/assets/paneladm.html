@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PassClient</title>
+  <link href="./css/paneladm.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="all">
+    <div class="fila">
+      <table id="all-filas" style="width:100%">
+        <thead>
+          <tr>
+            <th colspan="2">FILA ATUAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Total</td>
+            <td id="fila">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="relatorios_container ">
+      <h1>Relatórios</h1>
+      <div class="relatorios_container--date">
+        <div class="date_container--labels">
+          <label for="dateStart">Data Inicial</label>
+          <input type="date" name="dateStart" id="dateStart" class="relatorios_container--input inputs_base">
+        </div>
+
+        <div class="date_container--labels">
+          <label for="dateEnd">Data Final</label>
+          <input type="date" name="dateEnd" id="dateEnd" class="relatorios_container--input inputs_base">
+        </div>
+      </div>
+
+      <div class="relatorios_container--botoes">
+        <button class="relatorios_botoes inputs_base" onclick=relPorPeriodo()>Atendimento por período</button>
+        <button class="relatorios_botoes inputs_base" onclick=relPorTerminal()>Atendimento por Terminal</button>
+        <button class="relatorios_botoes inputs_base" onclick=relPorPrioridade()>Atendimento por Prioridade</button>
+      </div>
+    </div>
+
+    <!-- <div id="close">
+      <div class="btn" onclick="fechar()">X</div>
+    </div> -->
+  </div>
+  <script src="js/axios.min.js"></script>
+  <script src="js/paneladm.js" defer></script>
+</body>
+
+</html>

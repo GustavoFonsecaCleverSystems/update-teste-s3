@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encaminhar Senha</title>
+
+  <style>
+    *,
+    body {
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin-top: 1px;
+      margin-bottom: 1px;
+    }
+
+    .popup {
+      margin: auto;
+      top: 50%;
+      max-width: 600px;
+      padding: 20px;
+      background-color: rgba(240, 240, 240, 0.892);
+      border-radius: 15px;
+      font-family: sans-serif;
+      font-size: 0.7rem;
+      text-align: center;
+    }
+
+    button {
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 0.8rem;
+      padding: 8px;
+      background-color: white;
+      border-radius: 30px;
+      border: rgba(128, 128, 128, 0.562) solid 1px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background-color: red;
+      color: white;
+      border: rgba(255, 255, 255, 0.562) solid 1px;
+    }
+
+    .modal {
+      display: flex;
+      justify-content: center;
+    }
+
+    select {
+      background-color: white;
+      border: thin solid blue;
+      border-radius: 4px;
+      display: inline-block;
+      font: inherit;
+      line-height: 1.5em;
+      padding: 0.5em 3.5em 0.5em 1em;
+      margin: 0;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    select:-moz-focusring {
+      color: transparent;
+      text-shadow: 0 0 0 #000;
+    }
+
+    .btn {
+      cursor: pointer;
+      padding: 0 0.5rem;
+      border-radius: 39px;
+      text-transform: uppercase;
+      font-size: 10px;
+      margin-left: 550px;
+      background-color: red;
+      color: white;
+      width: fit-content;
+      height: fit-content;
+    }
+
+    input[type=text] {
+      width: 70%;
+      padding: 6px 20px;
+      margin: 8px 0;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: 2px solid rgb(0, 89, 255);
+    }
+
+    .inputsColumn {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .filas_inputs {
+      width: 30%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="popup">
+    <div class="btn" onclick="fechar()">X</div>
+    <h1>Escolha a fila que deseja encaminhar a senha</h1>
+    <div class="inputsColumn">
+      <input type="text" id="fname" name="fname" class="input_fila" placeholder="Nome do Cliente">
+      <select id="filas" class="filas_inputs">
+        <option value="" hidden>Selecione a Fila</option>
+      </select>
+    </div>
+    <div class="modal">
+      <button id="button-no-evaluetion" onclick="encaminhar()">
+        Encaminhar
+      </button>
+    </div>
+  </div>
+  <script src="js/axios.min.js"></script>
+  <script>
+    let idsenha = null;
+    let idterminal = null;
+    let server = null;
+    let axiosConf = null;
+    function get(name) {
+      if (name = (new RegExp('[?&]' + encodeURIComponent(name) + '=([^&]*)')).exec(location.search))
+        return decodeURIComponent(name[1]);
+    }
+    window.onload = async function () {
+      idsenha = get('idsenha');
+      server = window.electronAPI.server;
+      const conf = await window.electronAPI.configuration();
+      idterminal = conf.idterminal;
+      axiosConf = {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('TOKEN'),
+        },
+      };
+
+      const result = await axios.get(`${server}/chamada/encaminhar/fila`, axiosConf);
+      const filas = result.data
+      const selectFilas = document.getElementById('filas');
+      filas.forEach((fila) => {
+        const option = document.createElement("option");
+        option.text = fila.nomefila;
+        option.value = fila.fila;
+        selectFilas.add(option);
+      });
+
+
+    }
+    async function encaminhar() {
+      const selectFilas = document.getElementById('filas');
+      const nameClient = document.getElementById('fname').value;
+      const idfila = selectFilas.value;
+      if (idfila !== undefined && idfila !== "") {
+        const result = await axios.put(`${server}/chamada/encaminhar/${idterminal}/${idsenha}/${idfila}`, { nameclient: nameClient }, axiosConf);
+        window.electronAPI.ipc.send('close-forward');
+      }
+    }
+
+    function fechar() {
+      // @ts-expect-error
+      window.electronAPI.ipc.send('close-modal');
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+[terminal]
+* idterminal: id do terminal de acordo com o banco de dados
+* posFilaLista: array das filas que deve aparecer na contagem de fila a ser chamada
+* avaliacao: 0 - Desativado / 1 - Ativado - Botão de avaliação
+* encaminhar: 0 - Desativado / 1 - Ativado - Botão de de encaminhar atendimento
+* tipologin: Olhar array tiposlogin
+
+[server]
+* host: Ip do servidor s3 lite
+* port: porta do servidor s3 lite
+* servername: Etiqueta do s3 lite
+
+[panel]
+* orientation: Verificar tipos no array tiposorientation
+* confirmation: 0 - Desativado / 1 - Ativado - Pop Ups de confirmação de ação
+
+[evaluetion]
+ * Configuração das teclas para o teclado de avaliação

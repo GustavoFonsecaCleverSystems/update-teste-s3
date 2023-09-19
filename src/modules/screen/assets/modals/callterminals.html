@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chamar para Outros Terminais</title>
+
+  <style>
+    *,
+    body {
+      overflow: hidden;
+    }
+
+    .popup {
+      margin: auto;
+      top: 50%;
+      max-width: 600px;
+      padding: 20px;
+      background-color: rgba(240, 240, 240, 0.892);
+      border-radius: 15px;
+      font-family: sans-serif;
+      font-size: 0.7rem;
+      text-align: center;
+    }
+
+    button {
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 0.8rem;
+      padding: 8px;
+      background-color: white;
+      border-radius: 30px;
+      border: rgba(128, 128, 128, 0.562) solid 1px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background-color: red;
+      color: white;
+      border: rgba(255, 255, 255, 0.562) solid 1px;
+    }
+
+    .modal {
+      display: flex;
+      justify-content: center;
+    }
+
+    select {
+      background-color: white;
+      border: thin solid blue;
+      border-radius: 4px;
+      display: inline-block;
+      font: inherit;
+      line-height: 1.5em;
+      padding: 0.5em 3.5em 0.5em 1em;
+      margin: 0;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    select:-moz-focusring {
+      color: transparent;
+      text-shadow: 0 0 0 #000;
+    }
+
+    .btn {
+      cursor: pointer;
+      padding: 0 0.5rem;
+      border-radius: 39px;
+      text-transform: uppercase;
+      font-size: 10px;
+      margin-left: 580px;
+      background-color: red;
+      color: white;
+      width: fit-content;
+      height: fit-content;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="popup">
+    <div class="btn" onclick="fechar()">X</div>
+    <h1>Escolha o terminal que deseja chamar</h1>
+    <select id="terminals">
+      <option value="" hidden>Selecione o Terminal</option>
+    </select>
+    <div class="modal">
+      <button id="button-chamar" onclick="call()">
+        Chamar
+      </button>
+      <button id="button-rechamar" onclick="recall()">
+        Rechamar
+      </button>
+    </div>
+  </div>
+  <script src="js/axios.min.js"></script>
+  <script>
+    let server = null;
+    let axiosConf = null;
+    let idterminalreal = null;
+
+    window.onload = async function () {
+      server = window.electronAPI.server;
+      const conf = await window.electronAPI.configuration();
+      idterminalreal = conf.idterminal;
+      const terminalName = `${conf.painelpalavra} ${conf.paineltxt}`;
+      axiosConf = {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('TOKEN'),
+        },
+      };
+
+      const result = await axios.get(`${server}/terminals`, axiosConf);
+      const terminals = result.data
+      const indexTerminal = terminals.findIndex((terminal) => terminal.terminal === terminalName);
+      terminals.splice(indexTerminal, 1);
+      const selectTerminals = document.getElementById('terminals');
+      terminals.forEach((terminal) => {
+        const option = document.createElement("option");
+        option.text = terminal.terminalnome;
+        option.value = terminal.idterminal;
+        selectTerminals.add(option);
+      });
+    }
+
+    async function call() {
+      const selectTerminal = document.getElementById('terminals');
+      const idterminal = selectTerminal.value;
+      if (idterminal !== undefined && idterminal !== "") {
+        const result = await axios.get(`${server}/chamada/chamarsenhaterminal/${idterminal}/false/${idterminalreal}`, axiosConf);
+        window.electronAPI.ipc.send('close-modal');
+      }
+    }
+
+    async function recall() {
+      const selectTerminal = document.getElementById('terminals');
+      const idterminal = selectTerminal.value;
+      if (idterminal !== undefined && idterminal !== "") {
+        const result = await axios.get(`${server}/chamada/chamarsenhaterminal/${idterminal}/true/${idterminalreal}`, axiosConf);
+        window.electronAPI.ipc.send('close-modal');
+      }
+    }
+
+    function fechar() {
+      // @ts-expect-error
+      window.electronAPI.ipc.send('close-modal');
+    }
+  </script>
+</body>
+
+</html>

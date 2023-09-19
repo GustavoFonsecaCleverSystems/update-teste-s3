@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PassClient</title>
+  <link href="./css/panel.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="all">
+    <div class="btn-more">
+      <div class="more dropbtn" onclick="more()">+</div>
+      <div id="moreDropdown" class="dropdown-more">
+        <button class="btn-more-list" onclick="callOtherTerminal()">Chamar Terminal</button>
+      </div>
+    </div>
+
+    <div class="primeiros-btns">
+      <button class="btn call" onclick="chamar()">Chamar</button>
+      <button class="btn sync" onclick="rechamar()">Rechamar</button>
+      <button class="btn missed" onclick="desistiu()">Desistiu</button>
+    </div>
+
+    <div class="atual">
+      <p class="comando">senha atual:</p>
+      <p id="senha-atual" class="text">000</p>
+    </div>
+
+    <div class="tempo">
+      <p class="tempo-label">tempo:</p>
+      <p id="time" class="tempo-text">00:00:00</p>
+    </div>
+
+    <div class="ultimos-btns">
+      <button class="btn quizz" id="avaliar" onclick="avaliar()">Avaliação</button>
+      <button class="btn disturb" onclick="finalizar()">Liberar</button>
+      <button class="btn disturb" id="encaminhar" onclick="encaminhar()">Encaminhar</button>
+    </div>
+
+    <div onmouseover="showWindowAllFilas()" onmouseout="hideWindowAllFilas()" class="fila">
+      <p class="fila-text">Fila: <span id="fila">0</span> </p>
+      <div id="all-filas" class="dropdown-content">
+      </div>
+    </div>
+
+    <div id="close">
+      <div class="btn" onclick="fechar()">X</div>
+    </div>
+  </div>
+  <script src="js/axios.min.js"></script>
+  <script src="js/panel.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação do Cliente</title>
+
+  <style>
+    *,
+    body {
+      overflow: hidden;
+    }
+
+    .popup {
+      margin: auto;
+      top: 50%;
+      max-width: 600px;
+      padding: 20px;
+      background-color: rgba(240, 240, 240, 0.892);
+      border-radius: 15px;
+      font-family: sans-serif;
+      font-size: 0.7rem;
+      text-align: center;
+
+    }
+
+    button {
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 0.8rem;
+      padding: 8px;
+      background-color: white;
+      border-radius: 30px;
+      border: rgba(128, 128, 128, 0.562) solid 1px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background-color: red;
+      color: white;
+      border: rgba(255, 255, 255, 0.562) solid 1px;
+    }
+
+    .desistiu {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="popup">
+    <h1>Por favor, aguarde o cliente concluir a avaliação...</h1>
+    <div class="desistiu">
+      <button id="button-no-evaluetion" onclick="noEvaluetion()">
+        Cliente não quis avaliar
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function noEvaluetion() {
+      // @ts-expect-error
+      window.electronAPI.ipc.send('non-evaluetion');
+    }
+  </script>
+</body>
+
+</html>

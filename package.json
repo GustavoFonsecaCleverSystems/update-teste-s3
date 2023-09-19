@@ -1,0 +1,94 @@
+{
+  "name": "s3-client",
+  "version": "2.1.0",
+  "description": "Sistema client de chamadas para o s3",
+  "bin": "build/main.js",
+  "main": "build/main.js",
+  "scripts": {
+    "dev": "npm run build & npm run electron",
+    "dist": "npm run build & npm run electron-builder",
+    "electron": "npm run build & SET NODE_ENV=development & electron .",
+    "dev-server": "nodemon src/app.js",
+    "build": "babel src --extensions \".js,.ts\" --out-dir build --copy-files --no-copy-ignored",
+    "build-tsc": "tsc",
+    "electron-builder": "electron-builder"
+  },
+  "build": {
+    "appId": "s3-client",
+    "afterAllArtifactBuild": ".electron-delta.js",
+    "buildDependenciesFromSource": true,
+    "productName": "S3Client",
+    "asar": true,
+    "files": [
+      "build/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
+      "icon": "infra/images/icon.ico"
+    },
+    "portable": {
+      "useZip": true,
+      "unicode": false,
+      "artifactName": "s3client.exe",
+      "splashImage": "infra/images/splash.bmp"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CleverSystemsLTDA/s3-client.git"
+  },
+  "keywords": [],
+  "author": "Cleversystems",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CleverSystemsLTDA/s3-client/issues"
+  },
+  "homepage": "https://github.com/CleverSystemsLTDA/s3-client#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/node": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
+    "@electron-delta/builder": "^0.1.17",
+    "@types/app-root-path": "^1.2.4",
+    "@types/axios": "^0.14.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/ejs": "^3.1.0",
+    "@types/electron": "^1.6.10",
+    "@types/express": "^4.17.13",
+    "@types/ip": "^1.1.0",
+    "@types/node": "^16.9.6",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "electron": "^16.2.8",
+    "electron-builder": "^23.3.3",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.4.1",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "ip": "^1.1.8",
+    "winston": "^3.8.1"
+  }
+}
